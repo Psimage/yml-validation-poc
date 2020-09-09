@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "item": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "price"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "greetings": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/item"
+      },
+      "default": []
+    }
+  },
+  "required": [
+    "items"
+  ]
+}

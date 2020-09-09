@@ -1,0 +1,9 @@
+myapp:
+  greetings: Hello, World!
+  itemsByKey:
+    item1:
+      name: tomtom
+      price: 33
+  items:
+    - name: test2
+      price: 123
