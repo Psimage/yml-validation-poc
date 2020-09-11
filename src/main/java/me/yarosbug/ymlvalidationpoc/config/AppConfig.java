@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @Component
 @ConfigurationProperties(prefix = "myapp")
 @Data
@@ -20,7 +19,15 @@ public class AppConfig {
             defaultValue = "Hello, World!",
             description = "Greetings message")
     private String greetings;
+
     @ArraySchema(arraySchema = @Schema(required = true), minItems = 1)
     private List<Item> items = new ArrayList<>();
+
     private Map<String, Item> itemsByKey = new HashMap<>();
+
+    @Data
+    public static class Item {
+        private String name;
+        private int price;
+    }
 }

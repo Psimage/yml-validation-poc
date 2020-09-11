@@ -1,9 +1,6 @@
 package me.yarosbug.ymlvalidationpoc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.SneakyThrows;
-import org.assertj.core.api.Assertions;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaClient;
@@ -11,9 +8,13 @@ import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.junit.jupiter.api.Test;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
-import java.net.URL;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 public class ValidateYaml {
 
@@ -26,10 +27,11 @@ public class ValidateYaml {
 
     @Test
     void invalidYaml() {
-        ValidationException e = Assertions.catchThrowableOfType(() -> validateYaml("/invalid.yml"), ValidationException.class);
-        Assertions.assertThat(e).isNotNull();
+        ValidationException ex = catchThrowableOfType(() -> validateYaml("/invalid.yml"), ValidationException.class);
 
-        System.out.println(e.toJSON().toString(2));
+        assertThat(ex).isNotNull();
+
+        System.out.println(ex.toJSON().toString(2));
     }
 
 
@@ -48,10 +50,10 @@ public class ValidateYaml {
     }
 
     @SneakyThrows
-    private JSONObject readYaml(String path) {
-        URL resource = this.getClass().getResource(path);
-        Object jsonObj = new ObjectMapper(new YAMLFactory()).readValue(resource, Object.class);
-        String json = new ObjectMapper().writeValueAsString(jsonObj);
-        return new JSONObject(new JSONTokener(json));
+    private JSONObject readYaml(String yamlPath) {
+        try (InputStream inputStream = getClass().getResourceAsStream(yamlPath)) {
+            Map<?, ?> yaml = new Yaml().load(inputStream);
+            return new JSONObject(yaml);
+        }
     }
 }

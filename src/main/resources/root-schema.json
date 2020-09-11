@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "myapp": {
-      "$ref": "AppConfig-schema.json"
+      "$ref": "AppConfig-generated-schema.json"
     }
   }
 }
