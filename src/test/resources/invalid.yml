@@ -1,0 +1,10 @@
+myapp:
+  greetings: Hello, World!
+  itemsByKey:
+    item1:
+      name: tomtom
+      price: wrongType
+  items:
+    - name: test2
+      price: 123
+      unknownField: 3
